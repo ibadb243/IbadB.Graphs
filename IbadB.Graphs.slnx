@@ -1,3 +1,6 @@
 <Solution>
+  <Folder Name="/tests/">
+    <Project Path="tests/IbadB.Graphs.Tests/IbadB.Graphs.Tests.csproj" />
+  </Folder>
   <Project Path="src/IbadB.Graphs/IbadB.Graphs.csproj" />
 </Solution>

@@ -12,7 +12,10 @@
 		<Version>1.0.0</Version>
 		<Authors>Ibad</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/ibadb243/IbadB.Graphs</PackageProjectUrl>
+    	<RepositoryUrl>https://github.com/ibadb243/IbadB.Graphs</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<PackageTags>graph;pathfinding;</PackageTags>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
