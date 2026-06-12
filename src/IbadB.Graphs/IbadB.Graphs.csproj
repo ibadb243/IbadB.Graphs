@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>IbadB.Graphs</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Ibad</Authors>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryType>git</RepositoryType>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+    	<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  	</ItemGroup>
+
+</Project>
