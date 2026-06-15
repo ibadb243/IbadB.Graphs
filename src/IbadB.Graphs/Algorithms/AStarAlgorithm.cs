@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using IbadB.Graphs.Algorithms.Nodes;
 
 namespace IbadB.Graphs.Algorithms;
 
@@ -13,23 +12,36 @@ public static partial class AlgorithmExtensions
         where TModel : class
         where TValue : IComparable, IAdditionOperators<TValue, TValue, TValue>, ISubtractionOperators<TValue, TValue, TValue>
     {
-        SortedSet<HeuristicNode<TModel, TValue>> set = new SortedSet<HeuristicNode<TModel, TValue>>(new HeuristicNodeComparer<TModel, TValue>()) { new(start, default, default) };
-        Dictionary<GraphNode<TModel, TValue>, GraphNode<TModel, TValue>> path = new Dictionary<GraphNode<TModel, TValue>, GraphNode<TModel, TValue>>();
+        PriorityQueue<GraphNode<TModel, TValue>, TValue> queue = new();
+        HashSet<GraphNode<TModel, TValue>> visited = new();
+        Dictionary<GraphNode<TModel, TValue>, GraphNode<TModel, TValue>> path = new();
+        Dictionary<GraphNode<TModel, TValue>, TValue> distances = new();
 
-        HeuristicNode<TModel, TValue> current;
-        while (set.Count > 0)
+        queue.Enqueue(start, default);
+        distances[start] = default;
+
+        while (queue.Count > 0)
         {
-            current = set.Min;
-            set.Remove(current);
+            var current = queue.Dequeue();
 
-            if (current.Node.Id == end.Id) break;
+            if (visited.Contains(current)) continue;
+            visited.Add(current);
 
-            foreach (var edge in current.Node.Edges)
+            if (current.Id == end.Id) break;
+
+            foreach (var edge in current.Edges)
             {
-                if (path.ContainsKey(edge.To)) continue;
+                if (visited.Contains(edge.To)) continue;
 
-                set.Add(new(edge.To, current.T + edge.Value + h(edge.To), h(edge.To)));
-                path.Add(edge.To, current.Node);
+                var newDistance = distances[current] + edge.Value + h(edge.To);
+
+                if (!distances.ContainsKey(edge.To) || newDistance.CompareTo(distances[edge.To]) < 0)
+                {
+                    distances[edge.To] = newDistance;
+                    path[edge.To] = current;
+
+                    queue.Enqueue(edge.To, newDistance);
+                }
             }
         }
 
