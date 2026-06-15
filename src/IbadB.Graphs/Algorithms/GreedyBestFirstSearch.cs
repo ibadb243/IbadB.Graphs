@@ -12,22 +12,29 @@ public static partial class AlgorithmExtensions
             where TModel : class
             where TValue : IComparable, IAdditionOperators<TValue, TValue, TValue>
     {
-        Stack<GraphNode<TModel, TValue>> stack = new Stack<GraphNode<TModel, TValue>>();
-        HashSet<GraphNode<TModel, TValue>> visited = new HashSet<GraphNode<TModel, TValue>>();
+        Stack<GraphNode<TModel, TValue>> stack = new();
+        HashSet<GraphNode<TModel, TValue>> visited = new();
 
         stack.Push(start);
 
         GraphNode<TModel, TValue> current;
-        IEnumerable<GraphNode<TModel, TValue>> children;
         while (stack.Count > 0)
         {
             current = stack.Peek();
             visited.Add(current);
 
-            if (current == end) break;
-            children = current.Edges.Select(e => e.To).Where(n => !visited.Contains(n)).OrderBy(n => h(n));
-            if (children.Count() == 0) stack.Pop();
-            else stack.Push(children.First());
+            if (current.Id == end.Id) break;
+
+            var next = current.Edges
+                .Select(e => e.To)
+                .Where(n => !visited.Contains(n))
+                .OrderBy(n => h(n))
+                .FirstOrDefault();
+
+            if (next is null)
+                stack.Pop();
+            else
+                stack.Push(next);
         }
 
         return new Pathway<TModel, TValue>() { Vertexes = _GetPath(stack) };
