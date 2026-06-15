@@ -14,16 +14,21 @@ public static partial class AlgorithmExtensions
         stack.Push(start);
 
         GraphNode<TModel, TValue> current;
-        IEnumerable<GraphNode<TModel, TValue>> children;
         while (stack.Count > 0)
         {
             current = stack.Peek();
             visited.Add(current);
 
-            if (current == end) break;
-            children = current.Edges.Select(e => e.To).Where(n => !visited.Contains(n));
-            if (children.Count() == 0) stack.Pop();
-            else stack.Push(children.First());
+            if (current.Id == end.Id) break;
+
+            var next = current.Edges
+                .Select(e => e.To)
+                .FirstOrDefault(n => !visited.Contains(n));
+
+            if (next is null)
+                stack.Pop();
+            else
+                stack.Push(next);
         }
 
         return new Pathway<TModel, TValue>() { Vertexes = _GetPath(stack) };

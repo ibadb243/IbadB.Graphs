@@ -8,10 +8,12 @@ public static partial class AlgorithmExtensions
         where TModel : class
         where TValue : IComparable, IAdditionOperators<TValue, TValue, TValue>
     {
-        Queue<GraphNode<TModel, TValue>> queue = new Queue<GraphNode<TModel, TValue>>();
-        Dictionary<GraphNode<TModel, TValue>, GraphNode<TModel, TValue>> path = new Dictionary<GraphNode<TModel, TValue>, GraphNode<TModel, TValue>>();
+        Queue<GraphNode<TModel, TValue>> queue = new();
+        HashSet<GraphNode<TModel, TValue>> enqueued = new();
+        Dictionary<GraphNode<TModel, TValue>, GraphNode<TModel, TValue>> path = new();
 
         queue.Enqueue(start);
+        enqueued.Add(start);
 
         GraphNode<TModel, TValue> current;
         while (queue.Count > 0)
@@ -22,8 +24,9 @@ public static partial class AlgorithmExtensions
 
             foreach (var edge in current.Edges)
             {
-                if (path.ContainsKey(edge.To)) continue;
+                if (enqueued.Contains(edge.To)) continue;
 
+                enqueued.Add(edge.To);
                 queue.Enqueue(edge.To);
                 path.Add(edge.To, current);
             }
@@ -36,10 +39,10 @@ public static partial class AlgorithmExtensions
         where TModel : class
         where TValue : IComparable, IAdditionOperators<TValue, TValue, TValue>
     {
-        List<GraphNode<TModel, TValue>> result = new List<GraphNode<TModel, TValue>>() { end };
+        List<GraphNode<TModel, TValue>> result = new List<GraphNode<TModel, TValue>>(path.Count + 1) { end };
 
         GraphNode<TModel, TValue> current = end;
-        while (path.TryGetValue(current, out GraphNode<TModel, TValue> next))
+        while (path.TryGetValue(current, out var next))
         {
             result.Add(next);
             if (next.Id == start.Id) break;
