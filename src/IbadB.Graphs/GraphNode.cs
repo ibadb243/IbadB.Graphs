@@ -4,43 +4,33 @@ namespace IbadB.Graphs;
 
 public class GraphNode<TModel, TValue> where TModel : class where TValue : IComparable, IAdditionOperators<TValue, TValue, TValue>
 {
-	private static int _id = 0;
-
 	private readonly Dictionary<Guid, GraphEdge<TModel, TValue>> _edges;
 
     public Guid Id { get; private set; }
-	public string Name { get; set; }
+
 	public IReadOnlyCollection<GraphEdge<TModel, TValue>> Edges => _edges.Values;
 
 	public TModel Model { get; set; }
 
-	public GraphNode() : this(Guid.CreateVersion7(), $"GraphNode ({++_id})", default) { }
+	public GraphNode() : this(Guid.CreateVersion7(), default) { }
 
-	public GraphNode(Guid id) : this(id, $"GraphNode ({++_id})", default) { }
+	public GraphNode(Guid id) : this(id, default) { }
 
-	public GraphNode(string name, TModel model) : this(Guid.CreateVersion7(), name, model) { }
+	public GraphNode(TModel model) : this(Guid.CreateVersion7(), model) { }
 
-	public GraphNode(Guid id, string name, TModel model)
+	public GraphNode(Guid id, TModel model)
 	{
 		Id = id;
-		Name = name;
 		Model = model;
-		_edges = new Dictionary<Guid, GraphEdge<TModel, TValue>>();
+		_edges = new();
     }
 
-	public void AddEdge(GraphNode<TModel, TValue> node, TValue value)
+	public void AddEdge(GraphNode<TModel, TValue> node, TValue value) => _edges.TryAdd(node.Id, new(node, value));
+
+    public void EditEdge(GraphNode<TModel, TValue> node, TValue value)
 	{
-        if (_edges.ContainsKey(node.Id)) return;
-		_edges.Add(node.Id, new GraphEdge<TModel, TValue>(this, node, value));
+        if (!_edges.TryGetValue(node.Id, out var edge)) edge.Value = value;
     }
-
-	public void EditEdge(GraphNode<TModel, TValue> node, TValue value)
-	{
-        if (!_edges.TryGetValue(node.Id, out var edge)) return;
-        edge.Value = value;
-    }
-
-	public void RemoveEdge(GraphNode<TModel,TValue> node) => _edges.Remove(node.Id);
 
     public void RemoveEdge(Guid id) => _edges.Remove(id);
 

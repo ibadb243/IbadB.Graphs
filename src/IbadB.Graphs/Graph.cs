@@ -1,44 +1,36 @@
-﻿using System.Numerics;
+﻿using System.Collections.Concurrent;
+using System.Numerics;
 
 namespace IbadB.Graphs;
 
 public class Graph<TModel, TValue> where TModel : class where TValue : IComparable, IAdditionOperators<TValue, TValue, TValue>
 {
-    private readonly Dictionary<Guid, GraphNode<TModel, TValue>> _nodes;
+    private readonly IDictionary<Guid, GraphNode<TModel, TValue>> _nodes;
 
-    public IReadOnlyCollection<Guid> Nodes => _nodes.Keys;
+    public IReadOnlyDictionary<Guid, GraphNode<TModel, TValue>> Nodes => _nodes.AsReadOnly();
 
-    public Graph()
+    public Graph(bool safeThread = true)
 	{
-        _nodes = new();
+        if (safeThread) _nodes = new ConcurrentDictionary<Guid, GraphNode<TModel, TValue>>();
+        else _nodes = new Dictionary<Guid, GraphNode<TModel, TValue>>();
     }
 
-    public virtual void AddNode(GraphNode<TModel, TValue> node)
-    {
-        if (_nodes.ContainsKey(node.Id)) return;
-        _nodes.Add(node.Id, node);
-    }
+    public virtual void AddNode(GraphNode<TModel, TValue> node) => _nodes.TryAdd(node.Id, node);
 
-    public virtual GraphNode<TModel, TValue>? GetNode(Guid id)
-    {
-        return _nodes.TryGetValue(id, out var node) ? node : null;
-    }
+    public virtual GraphNode<TModel, TValue>? GetNode(Guid id) => _nodes.TryGetValue(id, out var node) ? node : null;
 
     public virtual void AddEdge(GraphNode<TModel, TValue> from, GraphNode<TModel, TValue> to, TValue value)
     {
-        if (!_nodes.ContainsKey(from.Id)) return;
-        from.AddEdge(to, value);
+        if (_nodes.TryGetValue(from.Id, out var node)) node.AddEdge(to, value);
     }
 
     public virtual void EditEdge(GraphNode<TModel, TValue> from, GraphNode<TModel, TValue> to, TValue value)
     {
-        if (!_nodes.ContainsKey(from.Id)) return;
-        from.EditEdge(to, value);
+        if (_nodes.TryGetValue(from.Id, out var node)) node.EditEdge(to, value);
     }
 
     public virtual void RemoveEdge(GraphNode<TModel, TValue> from, GraphNode<TModel, TValue> to)
     {
-        if (!_nodes.ContainsKey(from.Id) && !_nodes.ContainsKey(to.Id)) return;
-        from.RemoveEdge(to);
+        if (_nodes.TryGetValue(from.Id, out var node)) node.RemoveEdge(to.Id);
     }
 }
