@@ -6,7 +6,7 @@ public class GraphTests
     public void AddNode_AddsNodeToGraph()
     {
         var graph = new Graph<string, int>();
-        var node = new GraphNode<string, int>("A", "A");
+        var node = new GraphNode<string, int>("A");
 
         graph.AddNode(node);
 
@@ -31,7 +31,7 @@ public class GraphTests
     public void GetNode_ReturnsNode_WhenExists()
     {
         var graph = new Graph<string, int>();
-        var node = new GraphNode<string, int>("A", "A");
+        var node = new GraphNode<string, int>("A");
         graph.AddNode(node);
 
         var result = graph.GetNode(node.Id);
@@ -54,8 +54,8 @@ public class GraphTests
     public void AddEdge_CreatesEdge_WhenFromExists()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         graph.AddNode(a);
         graph.AddNode(b);
 
@@ -70,8 +70,8 @@ public class GraphTests
     public void AddEdge_DoesNothing_WhenFromNotInGraph()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
 
         graph.AddEdge(a, b, 5);
 
@@ -82,8 +82,8 @@ public class GraphTests
     public void AddEdge_AllowsEdge_WhenToNotInGraph()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         graph.AddNode(a);
 
         graph.AddEdge(a, b, 5);
@@ -95,8 +95,8 @@ public class GraphTests
     public void EditEdge_UpdatesValue_WhenEdgeExists()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         graph.AddNode(a);
         graph.AddNode(b);
         graph.AddEdge(a, b, 5);
@@ -110,8 +110,8 @@ public class GraphTests
     public void EditEdge_DoesNothing_WhenFromNotInGraph()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
 
         var ex = Record.Exception(() => graph.EditEdge(a, b, 99));
 
@@ -122,8 +122,8 @@ public class GraphTests
     public void RemoveEdge_RemovesEdge_WhenExists()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         graph.AddNode(a);
         graph.AddNode(b);
         graph.AddEdge(a, b, 5);
@@ -137,8 +137,8 @@ public class GraphTests
     public void RemoveEdge_DoesNothing_WhenFromNotInGraph()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
 
         var ex = Record.Exception(() => graph.RemoveEdge(a, b));
 
@@ -149,8 +149,8 @@ public class GraphTests
     public void RemoveEdge_DoesNotThrow_WhenEdgeNotExists()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         graph.AddNode(a);
         graph.AddNode(b);
 

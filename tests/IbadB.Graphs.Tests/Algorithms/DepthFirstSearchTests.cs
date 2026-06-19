@@ -12,10 +12,10 @@ public class DepthFirstSearchTests
     {
         var graph = new Graph<string, int>();
 
-        a = new GraphNode<string, int>("A", "A");
-        b = new GraphNode<string, int>("B", "B");
-        c = new GraphNode<string, int>("C", "C");
-        d = new GraphNode<string, int>("D", "D");
+        a = new GraphNode<string, int>("A");
+        b = new GraphNode<string, int>("B");
+        c = new GraphNode<string, int>("C");
+        d = new GraphNode<string, int>("D");
 
         graph.AddNode(a);
         graph.AddNode(b);
@@ -80,7 +80,7 @@ public class DepthFirstSearchTests
     public void DFS_ReturnsSingleNode_WhenStartEqualsEnd()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
+        var a = new GraphNode<string, int>("A");
         graph.AddNode(a);
 
         var result = graph.DFS(a, a);
@@ -94,8 +94,8 @@ public class DepthFirstSearchTests
     {
         // A and B are not connected — the stack will empty, _GetPath will return an empty list
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         graph.AddNode(a);
         graph.AddNode(b);
 

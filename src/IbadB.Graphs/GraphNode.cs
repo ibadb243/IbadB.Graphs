@@ -29,7 +29,7 @@ public class GraphNode<TModel, TValue> where TModel : class where TValue : IComp
 
     public void EditEdge(GraphNode<TModel, TValue> node, TValue value)
 	{
-        if (!_edges.TryGetValue(node.Id, out var edge)) edge.Value = value;
+        if (_edges.TryGetValue(node.Id, out var edge)) edge.Value = value;
     }
 
     public void RemoveEdge(Guid id) => _edges.Remove(id);

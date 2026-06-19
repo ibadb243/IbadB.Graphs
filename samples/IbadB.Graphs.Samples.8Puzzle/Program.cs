@@ -3,12 +3,12 @@ using IbadB.Graphs.Samples._8Puzzle;
 
 var graph = new GameGraph();
 
-var init = new GraphNode<StateModel, int>("start", new StateModel
+var init = new GraphNode<StateModel, int>(new StateModel
 {
     Field = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 0 }
 });
 
-var goal = new GraphNode<StateModel, int>("finish", new StateModel
+var goal = new GraphNode<StateModel, int>(new StateModel
 {
     Field = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }
 });

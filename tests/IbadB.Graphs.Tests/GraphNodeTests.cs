@@ -5,8 +5,8 @@ public class GraphNodeTests
     [Fact]
     public void AddEdge_CreatesEdge()
     {
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
 
         a.AddEdge(b, 5);
 
@@ -18,8 +18,8 @@ public class GraphNodeTests
     [Fact]
     public void AddEdge_Duplicate_IsIgnored()
     {
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
 
         a.AddEdge(b, 5);
         a.AddEdge(b, 10);
@@ -31,8 +31,8 @@ public class GraphNodeTests
     [Fact]
     public void EditEdge_UpdatesValue()
     {
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         a.AddEdge(b, 5);
 
         a.EditEdge(b, 99);
@@ -43,8 +43,8 @@ public class GraphNodeTests
     [Fact]
     public void EditEdge_NonExistent_DoesNothing()
     {
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
 
         a.EditEdge(b, 99);
 
@@ -54,11 +54,11 @@ public class GraphNodeTests
     [Fact]
     public void RemoveEdge_RemovesExistingEdge()
     {
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         a.AddEdge(b, 5);
 
-        a.RemoveEdge(b);
+        a.RemoveEdge(b.Id);
 
         Assert.Empty(a.Edges);
     }
@@ -66,10 +66,10 @@ public class GraphNodeTests
     [Fact]
     public void RemoveEdge_NonExistent_DoesNotThrow()
     {
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
 
-        var ex = Record.Exception(() => a.RemoveEdge(b));
+        var ex = Record.Exception(() => a.RemoveEdge(b.Id));
 
         Assert.Null(ex);
     }
@@ -77,8 +77,8 @@ public class GraphNodeTests
     [Fact]
     public void RemoveEdge_ByGuid_RemovesExistingEdge()
     {
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         a.AddEdge(b, 5);
 
         a.RemoveEdge(b.Id);

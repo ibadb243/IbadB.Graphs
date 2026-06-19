@@ -12,10 +12,10 @@ public class GreedyBestFirstSearchTests
     {
         var graph = new Graph<string, int>();
 
-        a = new GraphNode<string, int>("A", "A");
-        b = new GraphNode<string, int>("B", "B");
-        c = new GraphNode<string, int>("C", "C");
-        d = new GraphNode<string, int>("D", "D");
+        a = new GraphNode<string, int>("A");
+        b = new GraphNode<string, int>("B");
+        c = new GraphNode<string, int>("C");
+        d = new GraphNode<string, int>("D");
 
         graph.AddNode(a);
         graph.AddNode(b);
@@ -36,7 +36,7 @@ public class GreedyBestFirstSearchTests
     };
 
     private static int H(GraphNode<string, int> node) =>
-        _heuristic.TryGetValue(node.Name, out var h) ? h : int.MaxValue;
+        _heuristic.TryGetValue(node.Model, out var h) ? h : int.MaxValue;
 
     [Fact]
     public void GBFS_ReturnsPath_InLinearGraph()
@@ -94,7 +94,7 @@ public class GreedyBestFirstSearchTests
     public void GBFS_ReturnsSingleNode_WhenStartEqualsEnd()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
+        var a = new GraphNode<string, int>("A");
         graph.AddNode(a);
 
         var result = graph.GBFS(a, a, H);
@@ -107,8 +107,8 @@ public class GreedyBestFirstSearchTests
     public void GBFS_ReturnsEmpty_WhenNoPathExists()
     {
         var graph = new Graph<string, int>();
-        var a = new GraphNode<string, int>("A", "A");
-        var b = new GraphNode<string, int>("B", "B");
+        var a = new GraphNode<string, int>("A");
+        var b = new GraphNode<string, int>("B");
         graph.AddNode(a);
         graph.AddNode(b);
 

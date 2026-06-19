@@ -17,6 +17,8 @@ internal class GameGraph : Graph<StateModel, int>
 
     public bool HasState(StateModel state)
     {
-        return Nodes.Any(id => Enumerable.SequenceEqual(state.Field, GetNode(id).Model.Field));
+        throw new NotImplementedException();
+        //return Nodes.
+        //return Nodes.Any(id => Enumerable.SequenceEqual(state.Field, GetNode(id).Model.Field));
     }
 }
