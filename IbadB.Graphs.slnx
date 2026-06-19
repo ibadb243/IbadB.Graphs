@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/IbadB.Graphs.Samples.8Puzzle/IbadB.Graphs.Samples.8Puzzle.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/IbadB.Graphs.Tests/IbadB.Graphs.Tests.csproj" />
   </Folder>

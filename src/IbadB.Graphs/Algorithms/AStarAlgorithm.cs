@@ -33,14 +33,14 @@ public static partial class AlgorithmExtensions
             {
                 if (visited.Contains(edge.To)) continue;
 
-                var newDistance = distances[current] + edge.Value + h(edge.To);
+                var newDistance = distances[current] + edge.Value;
 
                 if (!distances.ContainsKey(edge.To) || newDistance.CompareTo(distances[edge.To]) < 0)
                 {
                     distances[edge.To] = newDistance;
                     path[edge.To] = current;
 
-                    queue.Enqueue(edge.To, newDistance);
+                    queue.Enqueue(edge.To, newDistance + h(edge.To));
                 }
             }
         }
