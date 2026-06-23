@@ -8,9 +8,9 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    
+
     permissions:
-      id-token: write # REQUIRED: Allows GitHub to issue an OIDC token
+      id-token: write
       contents: read
 
     steps:
@@ -20,20 +20,24 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '10.0'
+        dotnet-version: '10.0.x'
 
-    # 1. Build and pack the project
-    - name: Pack Package
-      run: dotnet pack --configuration Release --output ./artifacts
+    - name: Restore
+      run: dotnet restore
 
-    # 2. Authenticate using Trusted Publishing (OIDC)
+    - name: Build
+      run: dotnet buils --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test --configuration Release --no-build
+
+    - name: Pack
+      run: dotnet pack src/IbadB.Graphs/IbadB.Graphs.csproj --configuration Release --no-build --output ./artifacts
+
     - name: NuGet Login
       uses: NuGet/login@v1
       with:
-        # Provide your nuget.org profile username (not email)
-        # You can hardcode your username string here safely
         user: ibadb 
 
-    # 3. Push to NuGet without an explicit API key string
     - name: Push to NuGet
-      run: dotnet nuget push "./artifacts/*.nupkg" --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push "./artifacts/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
